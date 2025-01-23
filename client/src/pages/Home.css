@@ -1,0 +1,26 @@
+@keyframes underline-animation {
+  0% {
+    width: 0;
+    left: 50%;
+  }
+  50% {
+    width: 50%;
+    left: 25%;
+  }
+  100% {
+    width: 100%;
+    left: 0%;
+  }
+}
+
+.hover\:underLine-animation:hover::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: red;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  animation: underline-animation 0.1s forwards;
+}
