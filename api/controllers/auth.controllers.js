@@ -4,17 +4,16 @@ import { errorHandler } from "../utils/ErrorHandler.js";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
-
-  if (!username || !email || !password) {
-    next(errorHandler(400, "All fields are required"));
-  }
-
-  const user = await User.findOne({ email });
-  if (user) {
-    next(errorHandler(400, "User already exists"));
-  }
-
   try {
+    if (!username || !email || !password) {
+      next(errorHandler(400, "All fields are required"));
+    }
+
+    const user = await User.findOne({ email });
+    if (user) {
+      next(errorHandler(400, "User already exists"));
+    }
+
     const hashedPassword = bcryptjs.hashSync(password, 10);
     console.log("password", password);
     console.log(hashedPassword);
@@ -27,7 +26,6 @@ export const signup = async (req, res, next) => {
     await newUser.save();
     return res.json({ msg: "Signup success" });
   } catch (e) {
-    console.log(e);
     next(e);
   }
 };
