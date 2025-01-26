@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import { Button, Label, Spinner, TextInput } from "flowbite-react";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
 
 export default function SignUp() {
@@ -34,8 +34,8 @@ export default function SignUp() {
     }
   };
   return (
-    <div className="max-h-screen mt-20  flex md:flex-row flex-col">
-      <div className=" p-3 md:ml-auto mx-auto md:mx-0 w-full  max-w-md flex flex-col md:mt-24 flex-1  ">
+    <div className="min-h-screen mt-20  flex md:flex-row flex-col">
+      <div className=" p-3 md:ml-auto mx-auto md:mx-0 w-full  max-w-md flex flex-col md:mt-24  ">
         {/* {logo} */}
         <Link to={"/"} className=" font-bold text-4xl dark:text-white">
           <span className="px-1 py-2 bg-gradient-to-r from-indigo-600 via-purple-700 to-pink-600 rounded-lg text-white">
@@ -48,7 +48,8 @@ export default function SignUp() {
         <p className="text-sm mt-5 text-gray-600 capitalize ">
           Share your thoughts and ideas with the world. Join our community of
           bloggers and readers today!
-          <span className="font-semibold"> Signup now</span> to start writing
+          <br /><br />  
+          <span className="font-semibold"> Sign Up now</span> to start writing
           your own blog posts.
         </p>
       </div>
@@ -82,7 +83,10 @@ export default function SignUp() {
             onChange={onChangeHandler}
           ></TextInput>
           {error && (
-            <span className="text-red-500 text-sm font-semibold mb-2">{error}</span>
+            // <span className="text-red-500 text-sm font-semibold mb-2">{error}</span>
+            <Alert color="red" className="mb-4">
+              {error}
+            </Alert>
           )}
           <Button
             outline
@@ -101,7 +105,10 @@ export default function SignUp() {
           </Button>
           <span className="text-sm mt-2">
             Already have an account?{" "}
-            <Link to="/sign-in" className="underline decoration-blue-600 text-blue-600">
+            <Link
+              to="/sign-in"
+              className="underline decoration-blue-600 text-blue-600"
+            >
               Sign In here
             </Link>
           </span>
