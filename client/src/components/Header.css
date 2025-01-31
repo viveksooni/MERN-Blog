@@ -13,11 +13,11 @@
   }
 }
 
-.hover\:underline-animation:hover::after{
+.hover\:underline-animation:hover::after {
   content: "";
   display: block;
   height: 2px;
-  background-color: #6b46c1; 
+  background-color: #6b46c1;
   position: absolute;
   bottom: -2px;
   left: 0;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [textValue, setTextValue] = useState({});
@@ -24,13 +25,12 @@ export default function SignUp() {
       }
       const response = await axios.post("/api/v1/signup", textValue);
       console.log(response);
-      response.data && navigate("/sign-in");  
+      response.data && navigate("/sign-in");
     } catch (e) {
-      setError(e.response.data.errorMessage||"something went wrong");
+      setError(e.response.data.errorMessage || "something went wrong");
       console.log(e);
     } finally {
       setLoading(false);
-     
     }
   };
   return (
@@ -48,7 +48,8 @@ export default function SignUp() {
         <p className="text-sm mt-5 text-gray-600 capitalize ">
           Share your thoughts and ideas with the world. Join our community of
           bloggers and readers today!
-          <br /><br />  
+          <br />
+          <br />
           <span className="font-semibold"> Sign Up now</span> to start writing
           your own blog posts.
         </p>
@@ -57,7 +58,7 @@ export default function SignUp() {
       {/* Right */}
       <div className=" p-5 flex flex-col  w-full max-w-md md:mr-auto mx-auto md:mx-0  flex-2 ">
         {/* SignUp form */}
-        <form className="flex flex-col mt-2 p-5 w-full max-w-md bg-white rounded-lg  ">
+        <form className="flex flex-col mt-2 p-5 w-full max-w-md bg-white dark:bg-black  rounded-lg  ">
           <Label value="User Name" className="font-semibold"></Label>
           <TextInput
             id="username"
@@ -103,12 +104,11 @@ export default function SignUp() {
               "Sign Up"
             )}
           </Button>
+
+          <OAuth></OAuth>
           <span className="text-sm mt-2">
             Already have an account?{" "}
-            <Link
-              to="/sign-in"
-              className="underline decoration-blue-600 text-blue-600"
-            >
+            <Link to="/sign-in" className=" text-blue-600">
               Sign In here
             </Link>
           </span>

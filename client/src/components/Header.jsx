@@ -1,14 +1,32 @@
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import "./Header.css"; // Import the CSS file for custom styles
+import userStore from "@/store/userStore";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import ThemeStore from "@/store/ThemeStore";
 
 export default function Header() {
+  const { currentUser } = userStore();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toggleTheme, DefaultTheme } = ThemeStore();
+
   const isActive = (path) => location.pathname === path;
 
+  const ThemeChanger = () => {
+    toggleTheme();
+  };
   return (
     <Navbar className="border b-2">
       <Link
@@ -34,19 +52,48 @@ export default function Header() {
       </Button>
 
       <div className="flex flex-row gap-2 md:order-2">
-        <Button color="gray" className="w-12 h-10 hidden sm:inline" pill>
-          <FaMoon />
+        <Button
+          color="gray"
+          className="w-12 h-10 hidden sm:inline"
+          onClick={ThemeChanger}
+          pill
+        >
+          {DefaultTheme == "light" ? <FaMoon ></FaMoon> : <FaSun />}
         </Button>
-        <Link to={"/sign-up"}>
-          <Button
-            pill
-            outline
-            gradientDuoTone="cyanToBlue"
-            className="font-semibold"
-          >
-            Sign Up
-          </Button>
-        </Link>
+        {currentUser ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src={currentUser.photoURL?.split(" ")[0]} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>{" "}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  localStorage.removeItem();
+                  navigate("/sign-in");
+                }}
+              >
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link to={"/sign-up"}>
+            <Button
+              pill
+              outline
+              gradientDuoTone="cyanToBlue"
+              className="font-semibold"
+            >
+              Sign Up
+            </Button>
+          </Link>
+        )}
         <Navbar.Toggle className="text-purple-400" />
       </div>
 
@@ -55,7 +102,9 @@ export default function Header() {
           as={Link}
           to="/"
           className={`relative font-semibold hover:underline-animation ${
-            isActive("/") ? "!text-purple-600 hover:text-purple-600 " : "hover:!text-gray-700"
+            isActive("/")
+              ? "!text-purple-600 hover:text-purple-600 "
+              : "hover:!text-gray-700"
           }`}
         >
           Home
@@ -64,7 +113,9 @@ export default function Header() {
           as={Link}
           to="/about"
           className={`relative font-semibold hover:underline-animation ${
-            isActive("/about") ? "!text-purple-600 hover:text-purple-600 " : "hover:!text-gray-700"
+            isActive("/about")
+              ? "!text-purple-600 hover:text-purple-600 "
+              : "hover:!text-gray-700"
           }`}
         >
           About
@@ -73,7 +124,9 @@ export default function Header() {
           as={Link}
           to="/project"
           className={`relative font-semibold hover:underline-animation ${
-            isActive("/project") ? "!text-purple-600 hover:text-purple-600 " : "hover:!text-gray-700"
+            isActive("/project")
+              ? "!text-purple-600 hover:text-purple-600 "
+              : "hover:!text-gray-700"
           }`}
         >
           Project
@@ -82,7 +135,9 @@ export default function Header() {
           as={Link}
           to="/pricing"
           className={`relative font-semibold hover:underline-animation ${
-            isActive("/pricing") ? "!text-purple-600 hover:text-purple-600 " : "hover:!text-gray-700"
+            isActive("/pricing")
+              ? "!text-purple-600 hover:text-purple-600 "
+              : "hover:!text-gray-700"
           }`}
         >
           Pricing
@@ -91,7 +146,9 @@ export default function Header() {
           as={Link}
           to="/contact"
           className={`relative font-semibold hover:underline-animation ${
-            isActive("/contact") ? "!text-purple-600 hover:text-purple-600 " : "hover:!text-gray-700"
+            isActive("/contact")
+              ? "!text-purple-600 hover:text-purple-600 "
+              : "hover:!text-gray-700"
           }`}
         >
           Contact

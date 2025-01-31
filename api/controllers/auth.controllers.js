@@ -67,7 +67,68 @@ export const signin = async (req, res, next) => {
     return res
       .status(200)
       .cookie("access_token", token, { httpOnly: true })
-      .json({ rest });
+      .json({ ...rest });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const google = async (req, res, next) => {
+  let { email, photoUrl: photoURL, username } = req.body;
+  //check if user already exists
+  
+  try {
+    let user = await User.findOne({ email });
+
+    if (user) {
+      console.log("user already exists, directly logging in");
+
+      if (photoURL && photoURL != user.photoURL) {
+        user = await User.findOneAndUpdate(
+          { email },
+          { $set: { photoURL } },
+          { new: true }
+        );
+      }
+
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
+      const { password, ...withoutPassword } = user._doc;
+      res
+        .status(200)
+        .cookie("user_token", token)
+        .json({ ...withoutPassword });
+      return;
+    }
+
+    //if not exists create one
+    const SameUserName = await User.findOne({username});
+    if(SameUserName)
+    {
+      username = username+"_"+Math.random().toString(36).slice(-8); 
+    }
+    const Dummy_password = "12345";
+    const newUser = new User({
+      username,
+      email,
+      password: Dummy_password,
+      photoURL,
+    });
+
+    await newUser.save();
+
+    const verifyUser = await User.findOne({ email });
+
+    const token = jwt.sign({ id: verifyUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    const { password, ...withoutPassword } = verifyUser._doc;
+    return res
+      .status(200)
+      .cookie("user_token", token)
+      .json({ ...withoutPassword });
   } catch (e) {
     next(e);
   }
