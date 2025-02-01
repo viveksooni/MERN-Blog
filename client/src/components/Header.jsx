@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, Navbar, TextInput } from "flowbite-react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
-import "./Header.css"; // Import the CSS file for custom styles
+import "./Header.css";
 import userStore from "@/store/userStore";
 import {
   DropdownMenu,
@@ -54,11 +54,15 @@ export default function Header() {
       <div className="flex flex-row gap-2 md:order-2">
         <Button
           color="gray"
-          className="w-12 h-10 hidden sm:inline"
+          className="w-13 h-10 self-center hidden sm:inline"
           onClick={ThemeChanger}
           pill
         >
-          {DefaultTheme == "light" ? <FaMoon ></FaMoon> : <FaSun />}
+          {DefaultTheme == "light" ? (
+            <FaMoon size={18}></FaMoon>
+          ) : (
+            <FaSun size={18} />
+          )}
         </Button>
         {currentUser ? (
           <DropdownMenu>
@@ -74,7 +78,7 @@ export default function Header() {
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  localStorage.removeItem();
+                  localStorage.removeItem("currentUser-storage");
                   navigate("/sign-in");
                 }}
               >

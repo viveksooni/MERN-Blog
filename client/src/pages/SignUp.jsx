@@ -29,8 +29,6 @@ export default function SignUp() {
     } catch (e) {
       setError(e.response.data.errorMessage || "something went wrong");
       console.log(e);
-    } finally {
-      setLoading(false);
     }
   };
   return (
