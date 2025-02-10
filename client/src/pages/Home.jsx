@@ -2,7 +2,7 @@ import React from "react";
 import "./Home.css";
 import userStore from "../store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import AvatarComponent from "@/components/Header/AvatarComponent";
 
 export default function Home() {
   const { currentUser } = userStore();
@@ -17,17 +17,13 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl  font-bold mb-4">
         Welcome, {currentUser.username || "Guest"}
       </h1>
 
       {cleanPhotoUrl && (
-        <Avatar>
-          <AvatarImage src={cleanPhotoUrl} />
-          <AvatarFallback>Err</AvatarFallback>
-        </Avatar>
+        <AvatarComponent/>
       )}
-
     </div>
   );
 }

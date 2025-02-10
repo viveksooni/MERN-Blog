@@ -15,6 +15,8 @@ const userStore = create(
           errorMessage: null,
         }),
       signInFail: (payload) => set({ loading: false, errorMessage: payload }),
+      setCurrentUser: (payload) => set({ currentUser: payload }),
+      setError: (payload) => set({ errorMessage: payload }),  
     }),
     {
       name: "currentUser-storage",

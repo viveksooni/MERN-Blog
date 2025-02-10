@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
 import OAuth from "../components/OAuth";
+
 
 export default function SignUp() {
   const [textValue, setTextValue] = useState({});
@@ -13,24 +14,33 @@ export default function SignUp() {
     setTextValue({ ...textValue, [event.target.id]: event.target.value });
     console.log(textValue);
   };
-
   const SubmitHandler = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log(textValue);
+      setError(null);
+      
       if (!textValue.username || !textValue.email || !textValue.password) {
+        setLoading(false);
         setError("All fields are required");
         return;
       }
       const response = await axios.post("/api/v1/signup", textValue);
-      console.log(response);
-      response.data && navigate("/sign-in");
+      setLoading(false);
+      if (response.data) {
+        navigate("/sign-in");
+      }
     } catch (e) {
-      setError(e.response.data.errorMessage || "something went wrong");
-      console.log(e);
+      setLoading(false);
+      setError(e.response?.data?.errorMessage || "something went wrong");
     }
   };
+
+  // Reset error after exactly 10 seconds
+  useEffect(() => {
+    const timer = error ? setTimeout(() => setError(null), 10000) : null;
+    return () => timer && clearTimeout(timer);
+  }, [error]);
   return (
     <div className="min-h-screen mt-20  flex md:flex-row flex-col">
       <div className=" p-3 md:ml-auto mx-auto md:mx-0 w-full  max-w-md flex flex-col md:mt-24  ">

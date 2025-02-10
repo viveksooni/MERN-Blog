@@ -60,8 +60,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    console.log(token);
-    console.log(process.env.JWT_SECRET);
+ 
 
     const { password: pass, ...rest } = validUser._doc;
     return res
@@ -76,7 +75,7 @@ export const signin = async (req, res, next) => {
 export const google = async (req, res, next) => {
   let { email, photoUrl: photoURL, username } = req.body;
   //check if user already exists
-  
+
   try {
     let user = await User.findOne({ email });
 
@@ -103,16 +102,16 @@ export const google = async (req, res, next) => {
     }
 
     //if not exists create one
-    const SameUserName = await User.findOne({username});
-    if(SameUserName)
-    {
-      username = username+"_"+Math.random().toString(36).slice(-8); 
+    const SameUserName = await User.findOne({ username });
+    if (SameUserName) {
+      username = username + "_" + Math.random().toString(36).slice(-8);
     }
     const Dummy_password = "12345";
+    const hashed_dummy_password = bcryptjs.hashSync(Dummy_password, 10);
     const newUser = new User({
       username,
       email,
-      password: Dummy_password,
+      password: hashed_dummy_password,
       photoURL,
     });
 

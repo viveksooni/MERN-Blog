@@ -5,6 +5,7 @@ import userRoute from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { errorHandlerMiddleware } from "./middleware/error.middleware.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 // Connect to MongoDB
@@ -14,10 +15,11 @@ mongoose
     console.log("Connected to MongoDB!");
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err); 
   });
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors())
 app.listen(3000, () => {
