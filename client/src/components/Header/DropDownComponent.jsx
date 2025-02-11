@@ -9,9 +9,10 @@ import {
 } from "../ui/dropdown-menu";
 import AvatarComponent from "./AvatarComponent";
 import userStore from "@/store/userStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function DropDownComponent() {
   const { setCurrentUser } = userStore();
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

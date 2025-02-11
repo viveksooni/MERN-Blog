@@ -44,8 +44,9 @@ export default function Header() {
         <AiOutlineSearch size={18} />
       </Button>
 
-      <div className="flex flex-row gap-2 md:order-2">
+      <div className="flex flex-row gap-2  md:order-2">
         {/* toggletheme */}
+        
         <ThemeToggleButton />
 
         {currentUser ? (

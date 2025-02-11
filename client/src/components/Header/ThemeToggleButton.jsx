@@ -9,7 +9,7 @@ export default function ThemeToggleButton() {
   return (
     <Button
       color="gray"
-      className="w-13 h-10 self-center hidden sm:inline"
+      className="w-13 h-10 self-center sm:inline"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       pill
     >

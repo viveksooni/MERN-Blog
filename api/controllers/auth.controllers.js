@@ -60,7 +60,6 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
- 
 
     const { password: pass, ...rest } = validUser._doc;
     return res
@@ -82,21 +81,13 @@ export const google = async (req, res, next) => {
     if (user) {
       console.log("user already exists, directly logging in");
 
-      if (photoURL && photoURL != user.photoURL) {
-        user = await User.findOneAndUpdate(
-          { email },
-          { $set: { photoURL } },
-          { new: true }
-        );
-      }
-
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
       const { password, ...withoutPassword } = user._doc;
       res
         .status(200)
-        .cookie("user_token", token)
+        .cookie("access_token", token)
         .json({ ...withoutPassword });
       return;
     }

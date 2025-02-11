@@ -5,6 +5,8 @@ import userStore from "@/store/userStore";
 import uploadImageToCloudinary from "@/lib/UploadImageToCloudinary";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
+import { Eye, EyeClosed } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileComponent() {
   const setPic = useRef(null);
@@ -12,9 +14,33 @@ export default function ProfileComponent() {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const { currentUser, setCurrentUser } = userStore();
-
+  const [showPassword, setShowPassword] = useState(false);
   const cleanPhotoUrl = currentUser.photoURL?.split(" ")[0];
+  const navigate = useNavigate();
+  const AccountDeleteHandler = async () => {
+    try {
+      const response = await axios.delete(`/api/v1/delete/${currentUser._id}`);
 
+      if (response) {
+        toast({
+          title: "Info",
+          description: `${currentUser.email} got deleted successfully`,
+        });
+        console.log(response.data.message);
+        navigate("/sign-in");
+   
+      }
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: "Error",
+        description:
+          e.response?.data?.errorMessage ||
+          "some thing went wrong, please try again.",
+        variant: "destructive",
+      });
+    }
+  };
   const handleImageClick = () => {
     setPic.current.click();
   };
@@ -80,23 +106,22 @@ export default function ProfileComponent() {
       }
 
       const response = await axios.put(
-        `/api/v1/update/:${currentUser._id}`,
+        `/api/v1/update/${currentUser._id}`,
         updatedData
       );
-
+      console.log(response);
       if (response) {
-        console.log(response.data);
-        setCurrentUser(response.data.updatedUser);
+        setCurrentUser(response.data);
         toast({
           title: "Success",
           description: "Successfully updated profile",
         });
       }
     } catch (error) {
-      console.error(error);
       toast({
         title: "Error",
-        description: "Failed to update profile",
+        description:
+          error.response?.data?.errorMessage || "something went wrong",
         variant: "destructive",
       });
     } finally {
@@ -144,21 +169,35 @@ export default function ProfileComponent() {
         value={updateBody.email}
         disabled={loading}
       />
-      <Input
-        className="max-w-xl"
-        placeholder="Password"
-        type="password"
-        id="password"
-        onChange={valueHandler}
-        value="********"
-        disabled={loading}
-      />
+      <div className="relative w-full max-w-xl">
+        <Input
+          className=" w-full pr-10"
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          id="password"
+          onChange={valueHandler}
+          disabled={loading}
+        />
+        <button
+          className="absolute right-3 top-1/2 -translate-y-1/2"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? (
+            <Eye className="h-4 w-4 text-gray-500" />
+          ) : (
+            <EyeClosed className="h-4 w-4 text-gray-500" />
+          )}
+        </button>
+      </div>
       <Button className="" onClick={handleSubmit} disabled={loading}>
         {loading ? "Updating..." : "Update"}
       </Button>
 
       <div className="flex flex-row justify-between w-full max-w-xl capitalize">
-        <div className="text-red-600 cursor-pointer dark:text-red-400">
+        <div
+          className="text-red-600 cursor-pointer dark:text-red-400"
+          onClick={AccountDeleteHandler}
+        >
           Delete User
         </div>
         <div className="text-red-600 cursor-pointer dark:text-red-400">
