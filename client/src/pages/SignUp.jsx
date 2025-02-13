@@ -4,7 +4,6 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
 import OAuth from "../components/OAuth";
 
-
 export default function SignUp() {
   const [textValue, setTextValue] = useState({});
   const [loading, setLoading] = useState(false);
@@ -19,7 +18,7 @@ export default function SignUp() {
     try {
       setLoading(true);
       setError(null);
-      
+
       if (!textValue.username || !textValue.email || !textValue.password) {
         setLoading(false);
         setError("All fields are required");
@@ -41,6 +40,7 @@ export default function SignUp() {
     const timer = error ? setTimeout(() => setError(null), 10000) : null;
     return () => timer && clearTimeout(timer);
   }, [error]);
+  
   return (
     <div className="min-h-screen mt-20  flex md:flex-row flex-col">
       <div className=" p-3 md:ml-auto mx-auto md:mx-0 w-full  max-w-md flex flex-col md:mt-24  ">

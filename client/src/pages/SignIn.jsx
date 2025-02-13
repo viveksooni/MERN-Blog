@@ -7,7 +7,6 @@ import userStore from "../store/userStore";
 import OAuth from "../components/OAuth";
 import { useToast } from "@/hooks/use-toast";
 
-
 export default function SignIn() {
   const [textValue, setTextValue] = useState({});
   const {

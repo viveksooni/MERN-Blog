@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function uploadImageToCloudinary(file) {
+export default async function uploadImageToCloudinary(file, onProgress) {
   const formData = new FormData();
 
   formData.append("file", file);
@@ -15,10 +15,19 @@ export default async function uploadImageToCloudinary(file) {
       `https://api.cloudinary.com/v1_1/${
         import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
       }/image/upload`,
-      formData
+      formData,
+      {
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            onProgress?.(progress);
+          }
+        },
+      }
     );
-    const data = response.data;
-    return data.secure_url;
+    return response.data.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
     throw error;

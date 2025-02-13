@@ -1,5 +1,6 @@
-import ProfileComponent from "@/components/DashBoard-Main";
-import Sidebar from "@/components/DashBoard-Sidebar";
+
+import ProfileComponent from "@/components/DashBoard/DashBoard-Profile";
+import Sidebar from "@/components/DashBoard/DashBoard-Sidebar";
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 

@@ -1,3 +1,4 @@
+import { LogOut } from "lucide-react";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 const userStore = create(
@@ -16,7 +17,9 @@ const userStore = create(
         }),
       signInFail: (payload) => set({ loading: false, errorMessage: payload }),
       setCurrentUser: (payload) => set({ currentUser: payload }),
-      setError: (payload) => set({ errorMessage: payload }),  
+      setError: (payload) => set({ errorMessage: payload }),
+      LogOutSuccess: () =>
+        set({ loading: false, errorMessage: null, currentUser: null }),
     }),
     {
       name: "currentUser-storage",

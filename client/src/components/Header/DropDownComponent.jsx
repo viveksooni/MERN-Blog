@@ -11,7 +11,7 @@ import AvatarComponent from "./AvatarComponent";
 import userStore from "@/store/userStore";
 import { Link, useNavigate } from "react-router-dom";
 export default function DropDownComponent() {
-  const { setCurrentUser } = userStore();
+  const {  LogOutSuccess } = userStore();
   const navigate = useNavigate();
   return (
     <DropdownMenu>
@@ -27,8 +27,8 @@ export default function DropDownComponent() {
         <DropdownMenuItem
           onClick={() => {
             localStorage.removeItem("currentUser-storage");
-            setCurrentUser(null);
             navigate("/sign-in");
+            LogOutSuccess();
           }}
         >
           Sign Out
