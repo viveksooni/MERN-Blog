@@ -20,19 +20,8 @@ export const updateUser = async (req, res, next) => {
     if (username.length < 7 || username.length > 20) {
       return next(errorHandler(400, "username should be between 7 and 20"));
     }
-    if (username.includes(" ")) {
-      return next(errorHandler(400, "username can not contain spaces"));
-    }
-    if (username !== username.toLowerCase()) {
-      return next(
-        errorHandler(400, "username cannot contain uppercase characters")
-      );
-    }
-    if (!username.match(/^[a-zA-Z0-9]+$/)) {
-      return next(
-        errorHandler(400, "username can only contains character and numbers")
-      );
-    }
+
+
   }
   try {
     let user = await User.findById(userId);
@@ -64,5 +53,16 @@ export const deleteUser = async (req, res, next) => {
     return res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     next(error);
+  }
+};
+
+export const signOutUser = (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json({ message: "User signOut Successfully" });
+  } catch (e) {
+    next(e);
   }
 };

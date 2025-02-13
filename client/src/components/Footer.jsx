@@ -6,7 +6,7 @@ export default function FooterCom() {
   return (
     <Footer
       container
-      className="border-t-4 border-teal-500 dark:border-t-2 dark:border-white dark:bg-[#09090b]"
+      className="border-t-4 border-purple-500 dark:border-t-2 dark:border-white dark:bg-[#09090b]"
     >
       <div className="w-full max-w-8xl mx-auto ">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">

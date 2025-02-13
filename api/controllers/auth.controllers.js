@@ -117,7 +117,7 @@ export const google = async (req, res, next) => {
     const { password, ...withoutPassword } = verifyUser._doc;
     return res
       .status(200)
-      .cookie("user_token", token)
+      .cookie("access_token", token)
       .json({ ...withoutPassword });
   } catch (e) {
     next(e);
