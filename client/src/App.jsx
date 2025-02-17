@@ -7,11 +7,13 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header/Header";
 import FooterCom from "./components/Footer";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/Private-Route/PrivateRoute";
 import DashBoard from "./pages/DashBoard";
 import { Toaster } from "@/components/ui/toaster";
 import About from "./pages/About";
 import { ThemeProvider } from "./components/Theme/theme-provider";
+import PostPrivateRoute from "./components/Private-Route/Post-PrivateRoute";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   return (
@@ -25,7 +27,11 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route element={<PostPrivateRoute />}>
+              <Route path="/create-post" element={<CreatePost />} />
+            </Route>
           </Route>
+
           <Route path="/project" element={<Project />} />
           <Route path="/about" element={<About />} />
         </Routes>

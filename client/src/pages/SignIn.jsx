@@ -16,6 +16,7 @@ export default function SignIn() {
     signInStart,
     signInFail,
     signInSuccess,
+    currentUser
   } = userStore();
 
   const { toast } = useToast();
@@ -29,7 +30,7 @@ export default function SignIn() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    if (urlParams.get("redirect")) {
+    if (urlParams.get("redirect") && !currentUser) {
       toast({
         title: "Info",
         description: "Please Login first to access the page",

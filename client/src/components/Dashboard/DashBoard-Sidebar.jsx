@@ -36,8 +36,12 @@ export default function Sidebar({ tab }) {
 function SidebarButton({ children, tabSelected }) {
   return (
     <div
-      className={`mx-4 my-2 p-4 text-xl font-bold flex items-center gap-3
-      ${tabSelected ? 'bg-gray-500' : 'hover:bg-gray-800'} rounded-lg`}
+      className={`mx-4 my-2 p-4 text-xl font-semibold flex items-center gap-3 rounded-lg transition-colors
+        ${
+          tabSelected
+            ? "bg-[#e2e2e2] dark:bg-gray-800 text-purple-600 dark:text-purple-500 [&>*]:text-purple-600 dark:[&>*]:text-purple-500"
+            : "hover:bg-gray-100 dark:hover:bg-gray-800 [&>*]:text-gray-700 dark:[&>*]:text-gray-300"
+        }`}
     >
       {children}
     </div>

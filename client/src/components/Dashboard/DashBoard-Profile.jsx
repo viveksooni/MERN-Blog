@@ -6,8 +6,9 @@ import uploadImageToCloudinary from "@/lib/UploadImageToCloudinary";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import Modal from "../Modal";
+import GlowButton from "../Custom/GlowButton";
 
 const DEFAULT_PROFILE_IMAGE = "https://github.com/shadcn.png";
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -65,10 +66,11 @@ export default function ProfileComponent() {
     if (!currentUser?._id) return;
 
     try {
-      setLoading(true);
       await axios.delete(`/api/v1/delete/${currentUser._id}`);
       navigate("/sign-in", { replace: true });
-      LogOutSuccess();
+      setTimeout(() => {
+        LogOutSuccess();
+      }, 500);
       toast({
         title: "Success",
         description: "Account deleted successfully",
@@ -81,7 +83,6 @@ export default function ProfileComponent() {
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
       setModal({ isOpen: false, type: null });
     }
   };
@@ -288,21 +289,24 @@ export default function ProfileComponent() {
       </div>
 
       <Button
-        className="w-full max-w-xl relative overflow-hidden"
+        className="w-full max-w-xl relative overflow-hidden [&>span]:text-inherit"
         onClick={handleProfileUpdate}
-        disabled={loading}
       >
         {loading ? (
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-2 ">
             <Loader2 className="h-4 w-4 animate-spin" />
-            {uploadProgress > 0
-              ? `Uploading... ${uploadProgress}%`
-              : "Updating..."}
+            Updating Profile
           </span>
         ) : (
           "Update Profile"
         )}
       </Button>
+      {currentUser.isAdmin && (
+        <Link to="/create-post" className="w-full max-w-xl">
+       
+          <GlowButton className="w-full">Post Blog</GlowButton>
+        </Link>
+      )}
 
       <div className="flex flex-row justify-between w-full max-w-xl capitalize mt-4">
         <button

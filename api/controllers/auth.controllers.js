@@ -57,9 +57,13 @@ export const signin = async (req, res, next) => {
       return;
     }
 
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     const { password: pass, ...rest } = validUser._doc;
     return res
@@ -110,9 +114,13 @@ export const google = async (req, res, next) => {
 
     const verifyUser = await User.findOne({ email });
 
-    const token = jwt.sign({ id: verifyUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: verifyUser._id, isAdmin: verifyUser.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     const { password, ...withoutPassword } = verifyUser._doc;
     return res
