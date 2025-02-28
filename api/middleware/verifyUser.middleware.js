@@ -9,7 +9,7 @@ export const verifyUser = (req, res, next) => {
     if (err) {
       next(errorHandler(401, "unauthorized error"));
     }
-
+    console.log(user);
     req.user = user;
     next();
   });

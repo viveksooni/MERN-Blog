@@ -1,5 +1,6 @@
 import ProfileComponent from "@/components/DashBoard/DashBoard-Profile";
 import Sidebar from "@/components/DashBoard/DashBoard-Sidebar";
+import MyBlogs from "@/components/DashBoard/MyBlogs";
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
@@ -18,7 +19,7 @@ export default function DashBoard() {
       case "profile":
         return <ProfileComponent></ProfileComponent>;
       case "MyBlogs":
-        return "helllo blog walo";
+        return <MyBlogs></MyBlogs>
       case "About":
         return "ye le about section";
       case "Settings":

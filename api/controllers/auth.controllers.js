@@ -85,9 +85,13 @@ export const google = async (req, res, next) => {
     if (user) {
       console.log("user already exists, directly logging in");
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1d",
+        }
+      );
       const { password, ...withoutPassword } = user._doc;
       res
         .status(200)

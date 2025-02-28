@@ -46,7 +46,7 @@ export default function Header() {
 
       <div className="flex flex-row gap-2  md:order-2">
         {/* toggletheme */}
-        
+
         <ThemeToggleButton />
 
         {currentUser ? (
@@ -82,6 +82,13 @@ export default function Header() {
 
         <Navbar.Link as={Link} to="/project" className={linkStyle("/project")}>
           Project
+        </Navbar.Link>
+        <Navbar.Link
+          as={Link}
+          to="/dashboard?tab=profile"
+          className={linkStyle("/profile")}
+        >
+          Profile
         </Navbar.Link>
 
         <Navbar.Link as={Link} to="/about" className={linkStyle("/about")}>

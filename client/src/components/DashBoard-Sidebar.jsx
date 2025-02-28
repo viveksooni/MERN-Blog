@@ -1,10 +1,8 @@
-import userStore from "@/store/userStore";
 import { User, Settings, Book, Info } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ tab }) {
-  const { currentUser} = userStore();
   return (
     <div className="bg-black-700 flex flex-col border-r-2 dark:border-gray-800 border-gray-200 sm:border-b-2">
       <Link to="?tab=profile" className="md:mt-28 ">
@@ -13,14 +11,12 @@ export default function Sidebar({ tab }) {
           <span>Profile</span>
         </SidebarButton>
       </Link>
-      {currentUser.isAdmin && (
-        <Link to="?tab=MyBlogs">
-          <SidebarButton tabSelected={tab == "MyBlogs"}>
-            <Book className="w-5 h-5" />
-            <span>My Blogs</span>
-          </SidebarButton>
-        </Link>
-      )}
+      <Link to="?tab=MyBlogs">
+        <SidebarButton tabSelected={tab == "MyBlogs"}>
+          <Book className="w-5 h-5" />
+          <span>My Blogs</span>
+        </SidebarButton>
+      </Link>
       <Link to="?tab=About">
         <SidebarButton tabSelected={tab == "About"}>
           <Info className="w-5 h-5" />
@@ -40,12 +36,8 @@ export default function Sidebar({ tab }) {
 function SidebarButton({ children, tabSelected }) {
   return (
     <div
-      className={`mx-4 my-2 p-4 text-xl font-semibold flex items-center gap-3 rounded-lg transition-colors
-        ${
-          tabSelected
-            ? "bg-[#e2e2e2] dark:bg-gray-800 text-purple-600 dark:text-purple-500 [&>*]:text-purple-600 dark:[&>*]:text-purple-500"
-            : "hover:bg-gray-100 dark:hover:bg-gray-800 [&>*]:text-gray-700 dark:[&>*]:text-gray-300"
-        }`}
+      className={`mx-4 my-2 p-4 text-xl font-bold flex items-center gap-3
+      ${tabSelected ? 'bg-gray-500' : 'hover:bg-gray-800'} rounded-lg`}
     >
       {children}
     </div>

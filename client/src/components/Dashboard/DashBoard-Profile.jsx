@@ -6,7 +6,7 @@ import uploadImageToCloudinary from "@/lib/UploadImageToCloudinary";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { Eye, EyeClosed, Loader2 } from "lucide-react";
-import { Link,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import GlowButton from "../Custom/GlowButton";
 
@@ -303,8 +303,9 @@ export default function ProfileComponent() {
       </Button>
       {currentUser.isAdmin && (
         <Link to="/create-post" className="w-full max-w-xl">
-       
-          <GlowButton className="w-full">Post Blog</GlowButton>
+        
+            <GlowButton className="w-full">Post Blog</GlowButton>
+   
         </Link>
       )}
 
