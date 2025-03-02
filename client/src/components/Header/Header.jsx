@@ -26,7 +26,7 @@ export default function Header() {
     return style;
   };
   return (
-    <Navbar className="border b-2 dark:bg-[#09090b]">
+    <Navbar className="border b-2 dark:bg-gray-900">
       {/* Logo */}
       <Logo size={"sm:text-xl text-sm"} />
 

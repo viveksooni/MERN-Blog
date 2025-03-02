@@ -214,7 +214,7 @@ export default function ProfileComponent() {
   };
 
   return (
-    <div className="flex m-4 flex-col md:col-span-3 justify-center items-center gap-6 animate-in fade-in duration-500">
+    <div className="flex m-4 flex-col justify-center items-center gap-6 animate-in fade-in duration-500">
       <h1 className="text-4xl font-semibold my-7">Profile</h1>
 
       <div className="relative w-40 h-40 self-center shadow-md dark:shadow-white/20 rounded-full group">

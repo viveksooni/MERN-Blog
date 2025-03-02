@@ -10,32 +10,31 @@ export default function DashBoard() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    setTab(urlParams.get("tab"));
+    setTab(urlParams.get("tab")||"profile");
   }, [location.search]);
-  console.log(tab);
 
   const handleTab = () => {
     switch (tab) {
       case "profile":
         return <ProfileComponent></ProfileComponent>;
       case "MyBlogs":
-        return <MyBlogs></MyBlogs>
+        return <MyBlogs></MyBlogs>;
       case "About":
         return "ye le about section";
       case "Settings":
         return "ye le settings";
-      default:
-        return <Navigate to="?tab=profile"></Navigate>;
+     
     }
   };
   return (
-    <div className="grid grid-row-1 md:grid-cols-4  min-h-screen">
+    // <div className="grid grid-row-1 md:grid-cols-4  min-h-screen">
+    <div className="flex flex-col md:flex-row  md:gap-4 min-h-[calc(100vh-4rem)]">
       {/* // sidebar */}
 
       <Sidebar tab={tab}></Sidebar>
 
       {/* //main page */}
-      {handleTab()}
+      <div className="flex-1 p-4 ">{handleTab()}</div>
     </div>
   );
 }
