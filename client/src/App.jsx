@@ -14,6 +14,7 @@ import About from "./pages/About";
 import { ThemeProvider } from "./components/Theme/theme-provider";
 import PostPrivateRoute from "./components/Private-Route/Post-PrivateRoute";
 import CreatePost from "./pages/CreatePost";
+import PostEditor from "./pages/PostEditor";
 
 function App() {
   return (
@@ -31,7 +32,10 @@ function App() {
               <Route path="/create-post" element={<CreatePost />} />
             </Route>
           </Route>
-
+          <Route
+            path="/edit-post/:postId"
+            element={<PostEditor></PostEditor>}
+          />
           <Route path="/project" element={<Project />} />
           <Route path="/about" element={<About />} />
         </Routes>

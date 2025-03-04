@@ -75,3 +75,50 @@ export const getAllPost = async (req, res, next) => {
     next(e);
   }
 };
+
+export const deletePost = async (req, res, next) => {
+  const { post_id, user_id } = req.params;
+  try {
+    if (!req.user.isAdmin || req.user.id != user_id) {
+      return next(
+        errorHandler(403, "you are not allowed to delete this user!!")
+      );
+    }
+    await Post.findByIdAndDelete(post_id);
+    const totalPost = await Post.countDocuments();
+    return res
+      .status(200)
+      .json({ msg: "post got deleted successfully", totalPost });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const editPost = async (req, res, next) => {
+  const { user_id, post_id } = req.params;
+  const body = req.body;
+
+  try {
+    if (!req.user.isAdmin || req.user.id != user_id) {
+      return next(
+        errorHandler(403, "you are not allowed to delete this user!!")
+      );
+    }
+
+    const response = await Post.findByIdAndUpdate(
+      post_id,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          image: req.body.image,
+          category: req.body.category,
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+};

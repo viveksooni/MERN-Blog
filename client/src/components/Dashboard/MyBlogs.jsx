@@ -17,7 +17,7 @@ export default function MyBlogs() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `/api/v1/post/getPosts?userId=${currentUser._id}`
+          `/api/v1/post/getPosts?userId=${currentUser._id}&limit=3`
         );
 
         console.log(response);
@@ -46,6 +46,7 @@ export default function MyBlogs() {
           setBlogs={setUserBlogs}
           loading={loading}
           totalBlogs={totalPosts}
+          setTotalBlogs = {setTotalPosts}
         />
       </div>
     </div>
