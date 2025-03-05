@@ -96,7 +96,6 @@ export const deletePost = async (req, res, next) => {
 
 export const editPost = async (req, res, next) => {
   const { user_id, post_id } = req.params;
-  const body = req.body;
 
   try {
     if (!req.user.isAdmin || req.user.id != user_id) {
@@ -104,7 +103,11 @@ export const editPost = async (req, res, next) => {
         errorHandler(403, "you are not allowed to delete this user!!")
       );
     }
-
+    const slug = req.body.title
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 ]/g, "")
+      .split(" ")
+      .join("-");
     const response = await Post.findByIdAndUpdate(
       post_id,
       {
@@ -113,6 +116,7 @@ export const editPost = async (req, res, next) => {
           content: req.body.content,
           image: req.body.image,
           category: req.body.category,
+          slug,
         },
       },
       { new: true }

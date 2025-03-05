@@ -1,6 +1,6 @@
 import Logo from "./Logo";
 import React from "react";
-import { Footer, FooterCopyright, FooterDivider } from "flowbite-react";
+import { Footer } from "flowbite-react";
 import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 export default function FooterCom() {
   return (

@@ -95,7 +95,7 @@ export default function PostEditor() {
       );
 
       if (response.data) {
-        navigate(`/${response.data.slug}`);
+        navigate(`/getPosts/${response.data.slug}`);
         toast({ title: "Post updated successfully" });
       }
     } catch (error) {

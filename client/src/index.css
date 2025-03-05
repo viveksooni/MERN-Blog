@@ -103,3 +103,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+.post-content p {
+  margin-bottom: 0.5 rem;
+}
+.post-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content a {
+  color: rgb(73, 149, 190);
+  text-decoration: none;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+.post-content pre {
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 8px;
+  margin: 6px 0px;
+  white-space: pre-wrap; /* Allows wrapping */
+  word-wrap: break-word; /* Ensures long words break */
+  overflow-x: auto;
+}
+.dark .post-content pre{
+  background-color:#1a1a1a
+}

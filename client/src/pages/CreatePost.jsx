@@ -62,7 +62,7 @@ export default function CreatePost() {
         });
       }
 
-      navigate(`/post/${response.data.slug}`);
+      navigate(`/getPosts/${response.data.slug}`);
 
       console.log(response);
     } catch (error) {
@@ -125,7 +125,7 @@ export default function CreatePost() {
             required
             placeholder="Title"
             id="title"
-            className="flex-1"
+            className="flex-1 transition-all duration-300 focus:scale-[1.01]"
             onChange={(e) => {
               setFormData({ ...formData, title: e.target.value });
             }}
@@ -146,7 +146,7 @@ export default function CreatePost() {
             </SelectContent>
           </Select>
         </div>
-        <div className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8">
+        <div className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8 transition-all duration-300 rounded-lg hover:scale-[1.01]" onDragOver={()=>{e.preventDefault()}}>
           <FileInput
             accept="image/*"
             onChange={(e) => {
@@ -178,14 +178,16 @@ export default function CreatePost() {
             </div>
           )}
         </div>
-        <ReactQuill
-          theme="snow"
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
-          className="h-72 mb-12"
-          placeholder="Write here...."
-        ></ReactQuill>
+        <div className="transition-all duration-300 hover:scale-[1.01]">
+          <ReactQuill
+            theme="snow"
+            onChange={(value) => {
+              setFormData({ ...formData, content: value });
+            }}
+            className="h-72 mb-12 "
+            placeholder="Write here...."
+          ></ReactQuill>
+        </div>
         <Button
           disabled={uploadFileLoading}
           className="bg-black text-purple-400  border-2 border-purple-400  ease-in duration-300 transition-all hover:text-purple-300 hover:scale-[102%] hover:bg-black"

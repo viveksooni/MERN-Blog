@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/post.routes.js";
+import commentRoutes from "./routes/comment.routes.js";
 import { errorHandlerMiddleware } from "./middleware/error.middleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -29,4 +30,5 @@ app.listen(3000, () => {
 app.use("/api/v1", userRoute);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1/post", postRoutes);
+app.use("/api/v1/comment", commentRoutes);
 app.use(errorHandlerMiddleware);
