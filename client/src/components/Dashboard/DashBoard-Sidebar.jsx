@@ -1,5 +1,5 @@
 import userStore from "@/store/userStore";
-import { User, Settings, Book, Info } from "lucide-react";
+import { User, Settings, Book, Info, Users2Icon } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -25,6 +25,14 @@ export default function Sidebar({ tab }) {
               <SidebarButton tabSelected={tab === "MyBlogs"}>
                 <Book className="w-5 h-5" />
                 <span>My Blogs</span>
+              </SidebarButton>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="?tab=Users">
+              <SidebarButton tabSelected={tab === "Users"}>
+                <Users2Icon className="w-5 h-5" />
+                <span>Users</span>
               </SidebarButton>
             </Link>
           )}
@@ -57,6 +65,14 @@ export default function Sidebar({ tab }) {
               <SidebarButton tabSelected={tab === "MyBlogs"}>
                 <Book className="w-5 h-5" />
                 <span>My Blogs</span>
+              </SidebarButton>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="?tab=Users">
+              <SidebarButton tabSelected={tab === "Users"}>
+                <Users2Icon className="w-5 h-5" />
+                <span>Users</span>
               </SidebarButton>
             </Link>
           )}

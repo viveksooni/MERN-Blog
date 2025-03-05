@@ -15,6 +15,7 @@ import { ThemeProvider } from "./components/Theme/theme-provider";
 import PostPrivateRoute from "./components/Private-Route/Post-PrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import PostEditor from "./pages/PostEditor";
+import Post from "./pages/Post";
 
 function App() {
   return (
@@ -30,12 +31,13 @@ function App() {
             <Route path="/dashboard" element={<DashBoard />} />
             <Route element={<PostPrivateRoute />}>
               <Route path="/create-post" element={<CreatePost />} />
+              <Route
+                path="/edit-post/:postId"
+                element={<PostEditor></PostEditor>}
+              />
             </Route>
           </Route>
-          <Route
-            path="/edit-post/:postId"
-            element={<PostEditor></PostEditor>}
-          />
+          <Route path="/getPosts/:slug" element={<Post />} />
           <Route path="/project" element={<Project />} />
           <Route path="/about" element={<About />} />
         </Routes>

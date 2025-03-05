@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import GlowButton from "../Custom/GlowButton";
 
-const DEFAULT_PROFILE_IMAGE = "https://github.com/shadcn.png";
+export const DEFAULT_PROFILE_IMAGE = "https://github.com/shadcn.png";
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 

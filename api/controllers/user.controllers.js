@@ -20,8 +20,6 @@ export const updateUser = async (req, res, next) => {
     if (username.length < 7 || username.length > 20) {
       return next(errorHandler(400, "username should be between 7 and 20"));
     }
-
-
   }
   try {
     let user = await User.findById(userId);
@@ -44,10 +42,11 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
-  if (req.user.id !== req.params.userId) {
+  console.log("accounted delete request");
+
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
     return next(errorHandler(403, "you are not allowed to delete this user!!"));
   }
-
   try {
     await User.findByIdAndDelete(req.params.userId);
     return res.status(200).json({ message: "User deleted successfully" });
@@ -64,5 +63,46 @@ export const signOutUser = (req, res, next) => {
       .json({ message: "User signOut Successfully" });
   } catch (e) {
     next(e);
+  }
+};
+
+export const getUsers = async (req, res, next) => {
+  try {
+    if (!req.user.isAdmin) {
+      return res
+        .status(401)
+        .json({ message: "you are not allowed to get users" });
+    }
+    const limit = parseInt(req.query.limit) || 5;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const users = await User.find()
+      .limit(limit)
+      .skip(startIndex)
+      .sort({ updatedAt: sortDirection });
+
+    const usersWithoutPassword = users.map((user) => {
+      const { password, ...rest } = user._doc;
+      return rest;
+    });
+    const totalUser = await User.countDocuments();
+    const now = new Date();
+
+    const dateLastMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDay()
+    );
+
+    const LastMonthUsers = await User.countDocuments({
+      createdAt: { $gte: dateLastMonth },
+    });
+    return res.status(200).json({
+      users: usersWithoutPassword,
+      totalUsers: totalUser,
+      UserAddedLastMonth: LastMonthUsers,
+    });
+  } catch (error) {
+    next(error);
   }
 };
