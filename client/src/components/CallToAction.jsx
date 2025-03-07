@@ -4,7 +4,11 @@ import { Button } from "./ui/button";
 export default function CallToAction() {
   return (
     <div className="flex flex-col md:flex-row mb-10 items-center border-2 border-gray-200 p-5 rounded-tl-md rounded-br-md mx-auto mt-10">
+<<<<<<< HEAD
       <div className="mb-2 md:mb-0 flex flex-col   p-5 gap-3 flex-1">
+=======
+      <div className="mb-10 md:mb-0 flex flex-col   p-8 gap-3 flex-1">
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
         <h1 className="text-2xl font-semibold capitalize text-foreground">
           Get started with Next.js
         </h1>

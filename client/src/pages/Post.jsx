@@ -1,5 +1,8 @@
 import CallToAction from "@/components/CallToAction";
+<<<<<<< HEAD
 import CommentSection from "@/components/Comments/CommentSection";
+=======
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
@@ -20,7 +23,11 @@ export default function Post() {
         const response = await axios.get(`/api/v1/post/getPosts/?slug=${slug}`);
         if (response.data) {
           setPostDetails(response.data.posts[0]);
+<<<<<<< HEAD
       
+=======
+          console.log(response.data.posts[0]);
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
         }
       } catch (e) {
         toast({ title: e.response?.errorMessage });
@@ -30,7 +37,12 @@ export default function Post() {
     };
     getPost();
   }, [slug]);
+<<<<<<< HEAD
  
+=======
+  // //   const minsRead= postDetails.content.length;
+  //   console.log(minsRead)
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen animate-spin">
@@ -41,7 +53,11 @@ export default function Post() {
     );
   }
   return (
+<<<<<<< HEAD
     <main className=" p-3 flex flex-col max-w-6xl mx-auto min-h-screen bg-gray-900">
+=======
+    <main className=" p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
       <div className="text-3xl mt-10 p-3 font-serif text-center capitalize  max-w-2xl mx-auto lg:text-4xl">
         {postDetails && postDetails?.title}
       </div>
@@ -76,10 +92,13 @@ export default function Post() {
       <div className="max-w-2xl mx-auto">
         <CallToAction></CallToAction>
       </div>
+<<<<<<< HEAD
 
       <div>
         <CommentSection postId={postDetails?._id}></CommentSection>
       </div>
+=======
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
     </main>
   );
 }

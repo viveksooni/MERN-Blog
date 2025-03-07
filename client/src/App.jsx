@@ -16,8 +16,12 @@ import PostPrivateRoute from "./components/Private-Route/Post-PrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import PostEditor from "./pages/PostEditor";
 import Post from "./pages/Post";
+<<<<<<< HEAD
 import ScrollToTop from "./components/Custom/ScrollToTop";
 import WriteBlog from "./components/WriteBlog";
+=======
+
+>>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
