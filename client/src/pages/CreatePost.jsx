@@ -148,8 +148,16 @@ export default function CreatePost() {
         </div>
         <div
           className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8 transition-all duration-300 rounded-lg hover:scale-[1.01]"
-          onDragOver={() => {
+          onDragOver={(e) => {
             e.preventDefault();
+          }}
+          onDropCapture={(e) => {
+            e.preventDefault();
+            const localFile = e.dataTransfer.files[0];
+            const localFileUrl = URL.createObjectURL(localFile);
+            setFileUrl(localFileUrl);
+            console.log(localFile);
+            setFile(localFile);
           }}
         >
           <FileInput

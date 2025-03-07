@@ -26,7 +26,7 @@ export default function CommentList({ postId, commentList, setCommentList }) {
     <div>
       <div className="flex items-center gap-2  mt-10 text-sm">
         <p>Comments </p>
-        <div className="border border-gray-600 py-1 px-2 rounded-sm ">
+        <div className="border border-gray-600 py-1 px-2 rounded-sm">
           <p>{commentList.length}</p>
         </div>
       </div>
@@ -35,7 +35,13 @@ export default function CommentList({ postId, commentList, setCommentList }) {
           <div className="text-gray-400 text-sm mt-5">No Comments Yet</div>
         )}
         {commentList.map((comment) => {
-          return <Comment comment={comment} key={comment._id} />;
+          return (
+            <Comment
+              comment={comment}
+              setCommentList={setCommentList}
+              key={comment._id}
+            />
+          );
         })}
       </div>
     </div>

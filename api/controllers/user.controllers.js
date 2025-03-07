@@ -106,7 +106,6 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
-<<<<<<< HEAD
 
 export const getUserDetails = async (req, res, next) => {
   try {
@@ -122,5 +121,3 @@ export const getUserDetails = async (req, res, next) => {
     next(e);
   }
 };
-=======
->>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008

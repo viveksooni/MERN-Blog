@@ -37,3 +37,36 @@ export const getComment = async (req, res, next) => {
     next(error);
   }
 };
+
+export const editComment = async (req, res, next) => {
+  const reqComment = req.body.comment;
+  const { commentId } = req.params;
+
+  try {
+    const comment = await Comment.findByIdAndUpdate(
+      commentId,
+      { comment: reqComment },
+      { new: true }
+    );
+
+    if (comment) {
+      return res.status(200).json(comment);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const deleteComment = async (req, res, next) => {
+  const commentId = req.params.commentId;
+
+  try {
+    const comment = await Comment.findByIdAndDelete(commentId);
+    if (comment) {
+      return res.status(200).json({ message: "Comment deleted successfully" });
+    }
+    return res.status(404).json({ message: "Comment not found" });
+  } catch (e) {
+    next(e);
+  }
+};

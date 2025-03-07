@@ -25,7 +25,7 @@ export default function CommentSection({ postId }) {
       const response = await axios.post("/api/v1/comment/create", commentBody);
 
       if (response.data) {
-        setCommentList((prev) => [commentBody, ...prev]);
+        setCommentList((prev) => [response.data, ...prev]);
         setComment("");
       }
     } catch (e) {

@@ -6,15 +6,12 @@ export default function AvatarComponent() {
   const { currentUser } = userStore();
   return (
     <Avatar>
-      <AvatarImage
-        className="object-cover"
-        src={currentUser.photoURL?.split(" ")[0]}
-      />
+      <AvatarImage className="object-cover" src={currentUser.photoURL} />
       <AvatarFallback>
         <img
           src={DEFAULT_AVATAR}
           alt="Default avatar"
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover `}
         />
       </AvatarFallback>
     </Avatar>
