@@ -146,11 +146,12 @@ export default function CreatePost() {
             </SelectContent>
           </Select>
         </div>
-<<<<<<< HEAD
-        <div className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8 transition-all duration-300 rounded-lg hover:scale-[1.01]" onDragOver={()=>{e.preventDefault()}}>
-=======
-        <div className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8 transition-all duration-300 rounded-lg hover:scale-[1.01]">
->>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
+        <div
+          className="border-dotted border-4 border-purple-700 p-4 flex flex-row justify-between items-center gap-8 transition-all duration-300 rounded-lg hover:scale-[1.01]"
+          onDragOver={() => {
+            e.preventDefault();
+          }}
+        >
           <FileInput
             accept="image/*"
             onChange={(e) => {

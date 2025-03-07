@@ -1,10 +1,7 @@
 import express from "express";
 import {
   deleteUser,
-<<<<<<< HEAD
-  getUserDetails,
-=======
->>>>>>> 1c9dcd0552011ad1f3a3844891d686fb18824008
+  getUserDetails, 
   getUsers,
   signOutUser,
   updateUser,
