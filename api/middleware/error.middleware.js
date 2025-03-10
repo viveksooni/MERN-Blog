@@ -5,3 +5,4 @@ export const errorHandlerMiddleware = (err, req, res, next) => {
     .status(statusCode)
     .json({ success: false, errorMessage, statusCode: statusCode });
 };
+ 

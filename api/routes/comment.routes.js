@@ -2,6 +2,7 @@ import e from "express";
 import {
   createComment,
   getComment,
+  likeComment,
   editComment,
   deleteComment,
 } from "../controllers/comment.controllers.js";
@@ -13,4 +14,5 @@ Router.post("/create", verifyUser, createComment);
 Router.get("/:postId", verifyUser, getComment);
 Router.put("/:commentId", verifyUser, editComment);
 Router.delete("/:commentId", verifyUser, deleteComment);
+Router.put("/like/:commentId", verifyUser, likeComment);
 export default Router;

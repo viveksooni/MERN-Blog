@@ -44,7 +44,7 @@ export default function Home() {
       <h1 className="text-4xl   text-center font-bold mb-4">
         Welcome, {currentUser.username || "Guest"}
       </h1>
-      <div className="flex flex-wrap gap-14 justify-center ">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-14 justify-center ">
         {blogs.map((blog) => {
           return <BlogCard blog={blog} />;
         })}

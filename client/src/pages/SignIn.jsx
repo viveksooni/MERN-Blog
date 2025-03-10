@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
 import userStore from "../store/userStore";
-// import { BsGoogle } from "react-icons/bs";
+
 import OAuth from "../components/OAuth";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,7 +16,7 @@ export default function SignIn() {
     signInStart,
     signInFail,
     signInSuccess,
-    currentUser
+    currentUser,
   } = userStore();
 
   const { toast } = useToast();
@@ -106,9 +106,9 @@ export default function SignIn() {
               onChange={onChangeHandler}
             ></TextInput>
             {errorMessage && (
-              <Alert color="red" className="mb-4">
+              <p className="mb-4 mt-2 capitalize bg-red-700 px-4 py-2 rounded-lg text-white">
                 {errorMessage}
-              </Alert>
+              </p>
             )}
             <Button
               outline

@@ -5,7 +5,6 @@ import { DEFAULT_PROFILE_IMAGE } from "../Dashboard/DashBoard-Profile";
 import moment from "moment/moment";
 import {
   CircleArrowRight,
-  CircleArrowRightIcon,
   CrossIcon,
   PencilIcon,
   ThumbsDown,
@@ -15,40 +14,95 @@ import {
 } from "lucide-react";
 import userStore from "@/store/userStore";
 import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button"; // Added Button component
+import { useNavigate } from "react-router-dom";
 
 export default function Comment({ comment, setCommentList }) {
-  const [userDetails, setUserDetails] = useState();
+  const navigate = useNavigate();
   const { currentUser } = userStore();
-  const [commentEdit, setCommentEdit] = useState(comment.comment);
+  const [userDetails, setUserDetails] = useState(null);
   const [editedComment, setEditedComment] = useState(comment.comment);
   const [editState, setEditState] = useState(false);
+  const [likeCount, setLikeCount] = useState(comment.likeCount);
 
-  const updateComment = async () => {
+  const textareaRef = useRef(null);
+
+  // Memoized user fetch to prevent unnecessary calls
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`/api/v1/user/${comment.userId}`, {
+          signal: controller.signal,
+        });
+        setUserDetails(response.data.user);
+      } catch (e) {
+        if (!axios.isCancel(e)) {
+          toast({
+            variant: "destructive",
+            title: e.response?.data.errorMessage || "Failed to fetch user",
+          });
+        }
+      }
+    };
+
+    fetchUser();
+    return () => controller.abort();
+  }, [comment.userId]); // Only depend on userId
+
+  const handleUpdateComment = async (e) => {
+    e.preventDefault();
+    if (editedComment === comment.comment) {
+      setEditState(false);
+      return;
+    }
     try {
       const response = await axios.put(`/api/v1/comment/${comment._id}`, {
         comment: editedComment,
       });
+      setCommentList((prev) =>
+        prev.map((c) => (c._id === comment._id ? response.data : c))
+      );
+      setEditState(false);
+      toast({ title: "Comment updated successfully" });
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: e.response?.data.errorMessage || "Failed to update comment",
+      });
+    }
+  };
+  const handleLikeClick = async () => {
+    if (!currentUser) {
+      navigate("/sign-up");
+    }
+    try {
+      const response = await axios.put(`/api/v1/comment/like/${comment._id}`);
+
       if (response.data) {
-        setEditState(false);
-        setCommentEdit(response.data.comment);
+        setCommentList((prev) =>
+          prev.map((c) => (c._id === comment._id ? response.data : c))
+        );
       }
     } catch (e) {
       console.log(e);
-      toast({ title: e.response?.data.errorMessage });
+    }
+  };
+  const handleDeleteComment = async () => {
+    try {
+      await axios.delete(`/api/v1/comment/${comment._id}`);
+      setCommentList((prev) => prev.filter((c) => c._id !== comment._id));
+      toast({ title: "Comment deleted successfully" });
+    } catch (e) {
+      console.log(e);
+      toast({
+        variant: "destructive",
+        title: e.response?.data.errorMessage || "Failed to delete comment",
+      });
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      const response = await axios.delete(`/api/v1/comment/${comment._id}`);
-      setCommentList((prev) => prev.filter((c) => c._id !== comment._id));
-      if (response.data) {
-        toast({ title: "Comment deleted successfully" });
-      }
-    } catch (e) {
-      toast({ title: e.response?.data.errorMessage });
-    }
-  };
+  // Focus and select text when entering edit mode
   useEffect(() => {
     if (editState && textareaRef.current) {
       textareaRef.current.focus();
@@ -58,94 +112,109 @@ export default function Comment({ comment, setCommentList }) {
       );
     }
   }, [editState]);
-  console.log(editState);
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get(`/api/v1/user/${comment.userId}`);
 
-        if (response.data) {
-          setUserDetails(response.data.user);
-        }
-      } catch (e) {
-        toast({ title: e.response?.errorMessage });
-      }
-    };
-    getUser();
-  }, [comment]);
-  const textareaRef = useRef(null);
   return (
-    <div className="flex   gap-2 border-b text-sm border-gray-300 p-4">
-      {/* <div className="overflow-hidden rounded-full"> */}
+    <div className="flex gap-2 border-b text-sm border-gray-300 p-4 group">
       <div className="flex-shrink-0 mr-3">
         <img
           src={userDetails?.photoURL}
           alt={userDetails?.username}
-          onError={(e) => {
-            e.target.src = DEFAULT_PROFILE_IMAGE;
-          }}
+          onError={(e) => (e.target.src = DEFAULT_PROFILE_IMAGE)}
           className="w-10 h-10 object-cover rounded-full"
         />
       </div>
-      <div className="flex-1">
-        <div className=" flex gap-4 items-center ">
-          <div className="font-semibold truncate text-xs">
-            {userDetails?.username}
-          </div>
-          <div className="bg-gray-600 rounded-full w-1 h-1 -mx-2  mt-2"></div>
-          <div className="font-semibold text-xs">
-            {moment(comment?.createdAt).fromNow()}
-          </div>
-        </div>
-        {editState ? (
-          <Textarea
-            onChange={(e) => setEditedComment(e.target.value)}
-            value={editedComment}
-            ref={textareaRef}
-            rows={1}
-            className="bg-transparent backdrop:blur-lg"
-          ></Textarea>
-        ) : (
-          <p>{commentEdit}</p>
-        )}
 
-        <div className="flex justify-between items-center ">
-          <div className="flex flex-row gap-3 p-1">
-            <button className="text-teal-700">
-              <ThumbsUp size={20} />
-            </button>
-            <button className="text-teal-700">
-              <ThumbsDown size={20} />
-            </button>
-          </div>
-          {comment.userId == currentUser._id && (
-            <div className="flex gap-4 ">
-              <div>
-                <Trash2 size={20} onClick={handleDelete}></Trash2>
+      <div className="flex-1 min-w-0">
+        <div className="flex gap-2 items-center text-xs text-muted-foreground">
+          <span className="font-semibold truncate">
+            {userDetails?.username}
+          </span>
+          <span className="w-1 h-1 bg-muted rounded-full" />
+          <span>{moment(comment.createdAt).fromNow()}</span>
+        </div>
+
+        {editState ? (
+          <form onSubmit={handleUpdateComment} className="mt-2">
+            <Textarea
+              ref={textareaRef}
+              value={editedComment}
+              maxLength="200"
+              onChange={(e) => setEditedComment(e.target.value)}
+              onBlur={() => !editedComment.trim() && setEditState(false)}
+              className="w-full resize-y min-h-[80px]"
+            />
+            <div className="flex gap-2 mt-2">
+              <Button type="submit" size="sm" variant="outline">
+                Save
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setEditState(false);
+                  setEditedComment(comment.comment);
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <>
+            <p className="mt-2 mb-1 whitespace-pre-wrap break-words">
+              {comment.comment}
+            </p>
+            <div className="flex items-center gap-3 text-muted-foreground">
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLikeClick}
+                  className={
+                    `${
+                      comment.likedBy.includes(currentUser._id)
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-500"
+                    }` + "h-8 px-2 "
+                  }
+                >
+                  <ThumbsUp className="w-4 h-4" />
+                  <span className="ml-1">{comment.likeCount}</span>
+                </Button>
+                <Button variant="ghost" size="sm" className="h-8 px-2">
+                  <ThumbsDown className="w-4 h-4" />
+                </Button>
               </div>
 
-              {editState && (
-                <CircleArrowRight size={20} onClick={updateComment} />
-              )}
-              {editState && (
-                <X
-                  size={21}
-                  onClick={() => {
-                    setEditState(!editState);
-                    setEditedComment(commentEdit);
-                  }}
-                />
-              )}
+              {!(
+                currentUser?._id !== comment.userId && !currentUser.isAdmin
+              ) && (
+                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {currentUser?._id == comment.userId && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-2"
+                      onClick={() => setEditState(true)}
+                    >
+                      <PencilIcon className="w-4 h-4" />
+                    </Button>
+                  )}
 
-              {!editState && (
-                <PencilIcon
-                  size={20}
-                  onClick={() => setEditState(true)}
-                ></PencilIcon>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 px-2 text-destructive hover:text-destructive"
+                    onClick={handleDeleteComment}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
