@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import userStore from "@/store/userStore";
-
-import AvatarComponent from "@/components/Header/AvatarComponent";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import BlogCard from "@/components/BlogCard";
