@@ -12,7 +12,7 @@ export default function CommentSection({ postId }) {
   const [commentList, setCommentList] = useState([]);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-
+  
   //handles new comment post
   const handlePost = async (e) => {
     if (comment.length > 200) {
@@ -69,50 +69,53 @@ export default function CommentSection({ postId }) {
         </div>
       )}
       {currentUser && (
-        <form
-          className={`flex flex-col gap-4 bg-black-900  border border-white p-8 rounded-md ${
-            loading ? "opacity-50" : ""
-          }`}
-        >
-          <Textarea
-            placeholder="Comment here..."
-            maxLength="200"
-            rows="3"
-            value={comment}
-            className="focus-visible:ring-1 focus-visible:ring-teal-500 focus-visible-outline-none "
-            onChange={(event) => {
-              setComment(event.target.value);
-            }}
-          ></Textarea>
-          <div className="flex justify-between mt-5">
-            <p
-              className={`text-xs ${
-                200 - comment.length > 10
-                  ? "!text-neutral-500"
-                  : "!text-red-500 font-semibold animate-pulse"
-              } `}
-            >
-              {200 - comment.length} Character remaining.
-            </p>
-            <Button
-              onClick={handlePost}
-              variant="secondary"
-              className={`w-fit-content  ${
-                loading ? "disabled:opacity-50" : ""
-              }`}
-            >
-              {loading ? "Posting...." : "Post"}
-            </Button>
-          </div>
-        </form>
-      )}
+        <>
+          <form
+            className={`flex flex-col gap-4 bg-black-900  border border-white p-8 rounded-md ${
+              loading ? "opacity-50" : ""
+            }`}
+          >
+            <Textarea
+              placeholder="Comment here..."
+              maxLength="200"
+              rows="3"
+              value={comment}
+              className="focus-visible:ring-1 focus-visible:ring-teal-500 focus-visible-outline-none "
+              onChange={(event) => {
+                setComment(event.target.value);
+              }}
+            ></Textarea>
+            <div className="flex justify-between mt-5">
+              <p
+                className={`text-xs ${
+                  200 - comment.length > 10
+                    ? "!text-neutral-500"
+                    : "!text-red-500 font-semibold animate-pulse"
+                } `}
+              >
+                {200 - comment.length} Character remaining.
+              </p>
+              <Button
+                onClick={handlePost}
+                variant="secondary"
+                className={`w-fit-content  ${
+                  loading ? "disabled:opacity-50" : ""
+                }`}
+              >
+                {loading ? "Posting...." : "Post"}
+              </Button>
+            </div>
+          </form>
 
-      <CommentList
-        postId={postId}
-        userId={currentUser._id}
-        commentList={commentList}
-        setCommentList={setCommentList}
-      />
+          <CommentList
+            postId={postId}
+            userId={currentUser._id}
+            commentList={commentList}
+            setCommentList={setCommentList}
+          />
+        </>
+      )}
+    
     </div>
   );
 }

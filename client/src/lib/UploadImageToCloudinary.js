@@ -25,7 +25,8 @@ export default async function uploadImageToCloudinary(file, onProgress) {
             onProgress?.(progress);
           }
         },
-      }
+      },
+      { transformation: [{ width: 300, height: 200, crop: "fill" }] }
     );
     return response.data.secure_url;
   } catch (error) {

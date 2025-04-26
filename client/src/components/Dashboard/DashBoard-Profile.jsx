@@ -301,13 +301,11 @@ export default function ProfileComponent() {
           "Update Profile"
         )}
       </Button>
-      {currentUser.isAdmin && (
+      {
         <Link to="/create-post" className="w-full max-w-xl">
-        
-            <GlowButton className="w-full">Post Blog</GlowButton>
-   
+          <GlowButton className="w-full">Post Blog</GlowButton>
         </Link>
-      )}
+      }
 
       <div className="flex flex-row justify-between w-full max-w-xl capitalize mt-4">
         <button

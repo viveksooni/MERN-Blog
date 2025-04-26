@@ -7,11 +7,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import AvatarComponent from "./AvatarComponent";
+
 import userStore from "@/store/userStore";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import AvatarComponent from "./AvatarComponent";
 export default function DropDownComponent() {
-  const {  LogOutSuccess } = userStore();
+  const { LogOutSuccess } = userStore();
+  const handleLogOut = async () => {
+    try {
+      navigate("/sign-in", { replace: true });
+      await axios.post("/api/v1/signout");
+      LogOutSuccess();
+      toast({
+        title: "Success",
+        description: `Logged out successfully`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to log out",
+        variant: "destructive",
+      });
+    }
+  };
   const navigate = useNavigate();
   return (
     <DropdownMenu>
@@ -24,15 +43,7 @@ export default function DropDownComponent() {
         <Link to="/dashboard?tab=profile">
           <DropdownMenuItem>Profile</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem
-          onClick={() => {
-            localStorage.removeItem("currentUser-storage");
-            navigate("/sign-in");
-            LogOutSuccess();
-          }}
-        >
-          Sign Out
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogOut}>Sign Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

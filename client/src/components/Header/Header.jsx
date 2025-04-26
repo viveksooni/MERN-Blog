@@ -86,7 +86,7 @@ export default function Header() {
         <Navbar.Link
           as={Link}
           to="/dashboard?tab=profile"
-          className={linkStyle("/profile")}
+          className={linkStyle("/dashboard?tab=profile")}
         >
           Profile
         </Navbar.Link>

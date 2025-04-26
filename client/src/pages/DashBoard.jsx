@@ -1,9 +1,11 @@
+import AllBlogs from "@/components/Dashboard/AllBlogs";
 import ProfileComponent from "@/components/DashBoard/DashBoard-Profile";
 import Sidebar from "@/components/DashBoard/DashBoard-Sidebar";
 import MyBlogs from "@/components/DashBoard/MyBlogs";
 import UsersList from "@/components/Dashboard/UsersList";
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import AllComments from "./AllComments";
 
 export default function DashBoard() {
   const location = useLocation();
@@ -11,7 +13,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    setTab(urlParams.get("tab")||"profile");
+    setTab(urlParams.get("tab") || "profile");
   }, [location.search]);
 
   const handleTab = () => {
@@ -20,13 +22,16 @@ export default function DashBoard() {
         return <ProfileComponent></ProfileComponent>;
       case "MyBlogs":
         return <MyBlogs></MyBlogs>;
+      case "AllBlogs":
+        return <AllBlogs />;
       case "About":
         return "ye le about section";
       case "Settings":
         return "ye le settings";
       case "Users":
-        return <UsersList></UsersList>
-     
+        return <UsersList></UsersList>;
+      case "Comments":
+        return <AllComments />;
     }
   };
   return (

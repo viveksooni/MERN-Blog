@@ -9,9 +9,7 @@ import BlogCard from "@/components/BlogCard";
 
 export default function Home() {
   const { currentUser } = userStore();
-  if (!currentUser) {
-    return <div>Loading...</div>;
-  }
+
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [totalPosts, setTotalPosts] = useState(0);
@@ -29,7 +27,8 @@ export default function Home() {
       } catch (e) {
         toast({
           title: "Error",
-          description: e.response?.data?.message || "Failed to fetch blogs",
+          description:
+            e.response?.data?.errorMessage || "Failed to fetch blogs",
           variant: "destructive",
         });
       } finally {
@@ -37,17 +36,19 @@ export default function Home() {
       }
     };
     fetchBlogs();
-  }, [currentUser._id]);
+  }, []);
 
   return (
     <div className="p-4 min-h-screen ">
       <h1 className="text-4xl   text-center font-bold mb-4">
-        Welcome, {currentUser.username || "Guest"}
+        Welcome, {currentUser?.username || "Guest"}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-14 justify-center ">
-        {blogs.map((blog) => {
-          return <BlogCard blog={blog} />;
-        })}
+        {loading
+          ? "loading...."
+          : blogs.map((blog) => {
+              return <BlogCard blog={blog} key={blog._id} />;
+            })}
       </div>
     </div>
   );

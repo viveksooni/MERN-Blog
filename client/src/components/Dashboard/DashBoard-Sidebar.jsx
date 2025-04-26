@@ -1,5 +1,13 @@
 import userStore from "@/store/userStore";
-import { User, Settings, Book, Info, Users2Icon } from "lucide-react";
+import {
+  User,
+  Settings,
+  Book,
+  Info,
+  Users2Icon,
+  BookCopy,
+  MessagesSquare,
+} from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -20,11 +28,17 @@ export default function Sidebar({ tab }) {
               <span>Profile</span>
             </SidebarButton>
           </Link>
+          <Link to="?tab=MyBlogs">
+            <SidebarButton tabSelected={tab === "MyBlogs"}>
+              <Book className="w-5 h-5" />
+              <span>My Blogs</span>
+            </SidebarButton>
+          </Link>
           {currentUser.isAdmin && (
-            <Link to="?tab=MyBlogs">
-              <SidebarButton tabSelected={tab === "MyBlogs"}>
-                <Book className="w-5 h-5" />
-                <span>My Blogs</span>
+            <Link to="?tab=AllBlogs">
+              <SidebarButton tabSelected={tab == "AllBlogs"}>
+                <BookCopy className="w-5 h-5" />
+                <span>All Blogs</span>
               </SidebarButton>
             </Link>
           )}
@@ -33,6 +47,14 @@ export default function Sidebar({ tab }) {
               <SidebarButton tabSelected={tab === "Users"}>
                 <Users2Icon className="w-5 h-5" />
                 <span>Users</span>
+              </SidebarButton>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="?tab=Comments">
+              <SidebarButton tabSelected={tab == "Comments"}>
+                <MessagesSquare className="w-5 h-5" />
+                <span>Comments</span>
               </SidebarButton>
             </Link>
           )}
@@ -60,11 +82,17 @@ export default function Sidebar({ tab }) {
             </SidebarButton>
           </Link>
 
+          <Link to="?tab=MyBlogs">
+            <SidebarButton tabSelected={tab === "MyBlogs"}>
+              <Book className="w-5 h-5" />
+              <span>My Blogs</span>
+            </SidebarButton>
+          </Link>
           {currentUser.isAdmin && (
-            <Link to="?tab=MyBlogs">
-              <SidebarButton tabSelected={tab === "MyBlogs"}>
-                <Book className="w-5 h-5" />
-                <span>My Blogs</span>
+            <Link to="?tab=AllBlog">
+              <SidebarButton tabSelected={tab == "AllBlogs"}>
+                <BookCopy className="w-5 h-5" />
+                <span>All Blogs</span>
               </SidebarButton>
             </Link>
           )}
@@ -73,6 +101,14 @@ export default function Sidebar({ tab }) {
               <SidebarButton tabSelected={tab === "Users"}>
                 <Users2Icon className="w-5 h-5" />
                 <span>Users</span>
+              </SidebarButton>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="?tab=Comments">
+              <SidebarButton tabSelected={tab == "Comments"}>
+                <MessagesSquare className="w-5 h-5" />
+                <span>Comments</span>
               </SidebarButton>
             </Link>
           )}

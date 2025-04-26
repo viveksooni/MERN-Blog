@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "./ui/button";
 
 export default function CallToAction() {
-  
   return (
     <div className="flex flex-col md:flex-row mb-10 items-center border-2 border-gray-200 p-5 rounded-tl-md rounded-br-md mx-auto mt-10">
       <div className="mb-2 md:mb-0 flex flex-col   p-5 gap-3 flex-1">

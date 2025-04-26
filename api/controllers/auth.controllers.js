@@ -68,7 +68,7 @@ export const signin = async (req, res, next) => {
     const { password: pass, ...rest } = validUser._doc;
     return res
       .status(200)
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token)
       .json({ ...rest });
   } catch (e) {
     next(e);

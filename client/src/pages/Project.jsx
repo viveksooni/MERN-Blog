@@ -1,3 +1,4 @@
+import CrossAndZero from "@/components/Custom/CrossAndZero";
 import { SquareEqual } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -50,19 +51,29 @@ export default function Project() {
     }
   };
   return (
-    <div className="flex flex-col gap-10 items-center justify-center min-h-screen p-4">
-      <div className="grid grid-cols-3 gap-4 w-[300px] aspect-square">
-        {squares.map((isClicked, index) => {
-          return (
-            <SquaresComponent key={index}
-              isClicked={isClicked}
-              onClickHandler={onClickHandler}
-              index={index}
-            ></SquaresComponent>
-          );
-        })}
+    <div>
+      <div className="flex flex-col gap-10 items-center justify-center min-h-screen p-4">
+
+        <div className="text-3xl"> Reverse Square Game</div> 
+        <div className="grid grid-cols-3 gap-4 w-[300px] aspect-square">
+          {squares.map((isClicked, index) => {
+            return (
+              <SquaresComponent
+                key={index}
+                isClicked={isClicked}
+                onClickHandler={onClickHandler}
+                index={index}
+              ></SquaresComponent>
+            );
+          })}
+        </div>
+        <div className="text-2xl font-gray-200">
+          {isReversing
+            ? "Reversing..."
+            : `Squares left : ${9 - clickOrder.length}/9`}
+        </div>
       </div>
-      <div className="text-2xl font-gray-200">{isReversing?"Reversing...":`Squares left : ${9 - clickOrder.length}/9`}</div>
+      <CrossAndZero></CrossAndZero>
     </div>
   );
 }

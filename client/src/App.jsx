@@ -31,13 +31,12 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
-            <Route element={<PostPrivateRoute />}>
-              <Route path="/create-post" element={<CreatePost />} />
-              <Route
-                path="/edit-post/:postId"
-                element={<PostEditor></PostEditor>}
-              />
-            </Route>
+
+            <Route path="/create-post" element={<CreatePost />} />
+            <Route
+              path="/edit-post/:postId"
+              element={<PostEditor></PostEditor>}
+            />
           </Route>
           <Route path="/getPosts/:slug" element={<Post />} />
           <Route path="/project" element={<Project />} />

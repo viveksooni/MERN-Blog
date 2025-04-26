@@ -22,18 +22,42 @@ import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import axios from "axios";
 import userStore from "@/store/userStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../Modal";
 
 import { toast } from "@/hooks/use-toast";
 
-export function BlogsTable({
+export function AllBlogsTable({
   blogs,
   loading,
   setBlogs,
   totalBlogs,
   setTotalBlogs,
 }) {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userIds = blogs.map((blog) => blog.userId);
+
+      const uniqueUserIds = [...new Set(userIds)];
+      const newUserData = {};
+
+      for (const userId of uniqueUserIds) {
+        try {
+          const response = await axios.get(`/api/v1/user/${userId}`);
+          console.log(response);
+          newUserData[userId] = response.data;
+          console.log(newUserData);
+        } catch (e) {
+          console.log(e);
+          newUserData[userId] = null;
+        }
+      }
+      setUserData((prev) => ({ ...prev, ...newUserData }));
+    };
+    fetchUser();
+  }, [blogs]);
   const handlePostDelete = async () => {
     try {
       const response = await axios.delete(
@@ -95,11 +119,11 @@ export function BlogsTable({
               Date Updated
             </TableHead>
             <TableHead className="w-[100px] text-center">Post Image</TableHead>
-         
+
             <TableHead>Post Title</TableHead>
+            <TableHead>Posted by</TableHead>
             <TableHead className="w-[120px] text-center">Category</TableHead>
             <TableHead className="w-[120px] text-center">Actions</TableHead>
-
           </TableRow>
         </TableHeader>
         <TableBody className="transition-all">
@@ -131,7 +155,7 @@ export function BlogsTable({
               ))
           ) : blogs.length == 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center h-32">
+              <TableCell colSpan={6} className="text-center h-32">
                 {" "}
                 No Blogs Yet
               </TableCell>
@@ -154,10 +178,16 @@ export function BlogsTable({
                     />
                   </div>
                 </TableCell>
+
                 <TableCell>
                   {" "}
                   <div className="hover:scale-120  hover:text-purple-600 transition-all">
                     {blog.title}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="hover:scale-120  hover:text-purple-600 transition-all">
+                    {userData && userData[blog?.userId]?.user?.username}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -202,7 +232,7 @@ export function BlogsTable({
         {loading ? (
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={5} className="text-center">
+              <TableCell colSpan={6} className="text-center">
                 <div className="flex justify-center items-center w-full">
                   <Skeleton className="w-24 h-10"></Skeleton>
                 </div>
@@ -215,7 +245,7 @@ export function BlogsTable({
               ""
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="text-center">
+                <TableCell colSpan={6} className="text-center">
                   <Button
                     className=" text-white bg-green-600 hover:bg-green-500"
                     onClick={LoadMoreHandler}
